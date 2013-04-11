@@ -112,6 +112,10 @@ SOURCE=.\StdAfx.cpp
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=.\Commercial\DAY_CLOSE_CUTOFF.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Commercial\h_acct.h
 # End Source File
 # Begin Source File

@@ -14,6 +14,7 @@ int DISABLE_INI_CHECK=FALSE;
 int CREATE_NEW_INI_FILE=FALSE;
 #define __INIFILE__ "DBMAKER.ini"
 #define __NEWINI__ "NEWDBMAKER.ini"
+#define SHIFT9 999999999999
 
 char *g_dbpassword=0;
 char *start_path=0;
@@ -29,15 +30,26 @@ public:
 	char *table_name;
 	int	field_count;
 	int field_counter;
+	int insert_count;
+	DWORD elapsed_time;
 	~DBMaker(){
 	};
 	DBMaker(){
 		table_name="";
-		field_counter=field_count=0;
+		insert_count=field_counter=field_count=0;
 		SQLFields=SQLParams=SQLValues="";
+		elapsed_time=0;
 	};
-	int execute_sql_insert(CDatabase *db);
-	int get_fields_array(CDatabase *db);
+	int open_db(CString *dbname);
+	int close(){
+		db.Close();
+		if(insert_count>0)
+			printf("executed %i inserts, ",insert_count);
+		printf("done.\n\n");
+		return TRUE;
+	};
+	int execute_sql_insert();
+	int get_fields_array();
 	int check_field_exist(char *field)
 	{
 		CString fname;
@@ -89,7 +101,7 @@ public:
 		return TRUE;
 	};
 };
-int DBMaker::execute_sql_insert(CDatabase *db)
+int DBMaker::execute_sql_insert()
 {
 	if(CREATE_NEW_INI_FILE){
 		printf("(creating new ini file,no SQL insert done)\n");
@@ -120,7 +132,7 @@ int DBMaker::execute_sql_insert(CDatabase *db)
 		}
 	}
 	else{
-		if(!db->IsOpen()){
+		if(!db.IsOpen()){
 			printf("error:database is not open\n");
 			return FALSE;
 		}
@@ -136,7 +148,12 @@ int DBMaker::execute_sql_insert(CDatabase *db)
 				fputs(SqlString,flog);
 				fclose(flog);
 			}
-			db->ExecuteSQL(SqlString);
+			db.ExecuteSQL(SqlString);
+			insert_count++;
+			if(GetTickCount() > (elapsed_time+250)){
+				printf("%i       \r",insert_count);
+				elapsed_time=GetTickCount();
+			}
 			return TRUE;
 		}
 		CATCH(CDBException, e){
@@ -153,16 +170,16 @@ int DBMaker::execute_sql_insert(CDatabase *db)
 		END_CATCH
 	}
 }
-int DBMaker::get_fields_array(CDatabase *db)
+int DBMaker::get_fields_array()
 {
 	CString SqlString;
 	int i;
 
-	if(!db->IsOpen()){
+	if(!db.IsOpen()){
 		printf("error:database is not open\n");
 		return 0;
 	}
-	CRecordset rec1( db );
+	CRecordset rec1( &db );
 
 	SqlString = 
 	"SELECT TOP 1 * FROM [";
@@ -473,6 +490,7 @@ int check_field_exist(CString *SQLFields,char *field)
 	else
 		return TRUE;
 }
+
 int open_database(CDatabase *db,CString *dbname)
 {
 	int type=0;
@@ -512,38 +530,16 @@ int open_database(CDatabase *db,CString *dbname)
 	END_CATCH
 	return success!=0?TRUE:FALSE;
 }
-int get_db_version(CString *dbname)
+int DBMaker::open_db(CString *dbname)
 {
-	CDatabase db;
-	CString SqlString;
-
-	if(open_database(&db,dbname)==0)
-	{
-		cout<<"failed to open database\n";
-		return FALSE;
+	int result=open_database(&db,dbname);
+	if(result)
+		return TRUE;
+	else{
+		cout<<"cant open database "<<dbname<<endl;
+		exit(0);
 	}
-	CRecordset rec( &db );
-	TRY{
-		SqlString = "SELECT [ThisDatabaseVersion],[DateWasCreated] FROM [DBVersionStamp] ;";
-		rec.Open(CRecordset::snapshot,SqlString,CRecordset::readOnly);
-		cout<<"database version ";
-		while(!rec.IsEOF())
-		{
-			CString result;
-			rec.GetFieldValue("ThisDatabaseVersion",result);
-			cout<<(LPCTSTR)result << "      ";
-			rec.GetFieldValue("DateWasCreated",result);
-			cout<<(LPCTSTR)result;
-			rec.MoveNext();
-			cout<<"\n";
-		}
-	}CATCH(CDBException, e){
-		cout<<"failed to get DB version\n";
-	}END_CATCH
-	if(rec.IsOpen())
-		rec.Close();
-	db.Close();
-	return TRUE;
+	return FALSE;		
 }
 int get_table_index(CDatabase *db,char *table_name,char *field_name,int *index)
 {
@@ -870,11 +866,12 @@ void wait_exit()
 		Sleep(100);
 	}
 }
+int store_num=104;
 #include "Commercial\h_shift.h"
 #include "Commercial\h_event.h"
 #include "Commercial\h_acct.h"
 #include "Commercial\h_ticket.h"
-
+#include "Commercial\DAY_CLOSE_CUTOFF.h"
 
 
 
@@ -1001,6 +998,7 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 		fill_hevent(db1);
 		fill_hacct(db1);
 		fill_hticket(db1);
+		fill_DAY_CLOSE_CUTOFF(db1);
 
 		cout << "\nfinished\n";
 #ifndef _DEBUG

@@ -1,8 +1,8 @@
-int fill_vehicle(CString dbname)
+int fill_hshift(CString dbname)
 {
 	CDatabase db;
 	DBMaker dbm;
-	dbm.table_name="Vehicle";
+	dbm.table_name="H_SHIFT";
 
 	if(!check_ini_file(dbm.table_name)) 
 		return FALSE;

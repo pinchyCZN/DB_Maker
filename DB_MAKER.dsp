@@ -1,5 +1,5 @@
 # Microsoft Developer Studio Project File - Name="DB_MAKER" - Package Owner=<4>
-# Microsoft Developer Studio Generated Build File, Format Version 6.00
+# Microsoft Developer Studio Generated Build File, Format Version 60000
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Console Application" 0x0103
@@ -112,167 +112,19 @@ SOURCE=.\StdAfx.cpp
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\Commercial\AIM.h
+SOURCE=.\Commercial\h_acct.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Commercial\Config.h
+SOURCE=.\Commercial\h_event.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Commercial\CREDITCARD.h
+SOURCE=.\Commercial\h_shift.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Commercial\CustomData.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\Commercial\Customer.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\Commercial\InventoryRec.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\Commercial\MainTrans.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\Commercial\OBD_TABLES.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\Commercial\ProductConfig.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\Commercial\ReportConfig.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\Commercial\Security_Password.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\Commercial\Site.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\Commercial\TankConfig.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\Commercial\TransAllZero.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\Commercial\UnitConfig.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\Commercial\User.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\Commercial\Utility.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\Commercial\Vehicle.h
-# End Source File
-# End Group
-# Begin Group "FMLedger"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\binary.asm
-
-!IF  "$(CFG)" == "DB_MAKER - Win32 Release"
-
-# Begin Custom Build
-IntDir=.\Release
-InputPath=.\binary.asm
-InputName=binary
-
-"$(IntDir)\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	nasmw -t -f  win32 -o$(IntDir)\$(InputName).obj -Xvc $(InputName).asm
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "DB_MAKER - Win32 Debug"
-
-# PROP Ignore_Default_Tool 1
-# Begin Custom Build
-IntDir=.\Debug
-InputPath=.\binary.asm
-InputName=binary
-
-"$(IntDir)\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	nasmw -t -f  win32 -o$(IntDir)\$(InputName).obj -Xvc $(InputName).asm
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\FMLedger\fmledger_Additive.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\FMLedger\fmledger_Config.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\FMLedger\fmledger_credit.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\FMLedger\fmledger_custom.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\FMLedger\fmledger_DODAAC.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\FMLedger\fmledger_Link_DoDAAC_NSN.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\FMLedger\fmledger_messages.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\FMLedger\fmledger_secu.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\FMLedger\fmledger_site.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\FMLedger\fmledger_tank.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\FMLedger\fmledger_tim_trans.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\FMLedger\fmledger_tmu.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\FMLedger\fmledger_transactions.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\FMLedger\fmledger_veh.h
+SOURCE=.\Commercial\h_ticket.h
 # End Source File
 # End Group
 # Begin Source File

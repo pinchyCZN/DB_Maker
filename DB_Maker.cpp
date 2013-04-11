@@ -130,13 +130,13 @@ int DBMaker::execute_sql_insert(CDatabase *db)
 		SQLParams="";
 		SQLValues="";
 		TRY{
-			db->ExecuteSQL(SqlString);
 			if(LOG_SQL_INSERT){
 				FILE *flog;
 				flog=fopen("log_sql_insert.txt","a");
 				fputs(SqlString,flog);
 				fclose(flog);
 			}
+			db->ExecuteSQL(SqlString);
 			return TRUE;
 		}
 		CATCH(CDBException, e){
@@ -352,6 +352,23 @@ int OpenDB(CString *dbfile)
 		return FALSE;
 	return TRUE;
 }
+int set_system_time(SYSTEMTIME *time,int year,int month,int day,int hour,int min,int sec)
+{
+	memset(time,0,sizeof(SYSTEMTIME));
+	GetSystemTime(time);
+	time->wDayOfWeek=0;
+	time->wMilliseconds=0;
+	if(year!=0)
+		time->wYear=year;
+	if(month!=0)
+		time->wMonth=month;
+	if(day!=0)
+		time->wDay=day;
+	time->wHour=hour;
+	time->wMinute=min;
+	time->wSecond=sec;
+	return 0;
+}
 int increment_time(SYSTEMTIME *time, int hour, int min, int sec)
 {
 	FILETIME ft;               
@@ -463,18 +480,17 @@ int open_database(CDatabase *db,CString *dbname)
 	CString tstr;
 	tstr=*dbname;
 	tstr.MakeLower();
-	if(tstr.Find(".mdb")>=0)
+	if(tstr.Find(".db")>=0)
 		type=0;
 	else
 		type=1;
 	switch(type)
 	{
 	default:
-	case 0: //ACCESS
-		if(g_dbpassword!=0)
-			connect.Format("ODBC;DRIVER={MICROSOFT ACCESS DRIVER (*.mdb)};DSN='';DBQ=%s;PWD=%s",*dbname,g_dbpassword);
-		else
-			connect.Format("ODBC;DRIVER={MICROSOFT ACCESS DRIVER (*.mdb)};DSN='';DBQ=%s",*dbname);
+	case 0: //DB fox pro
+		//UID=dba;PWD=********;DBN=Journal;DBF=C:\Journal Manager\Journal.db;ASTOP=YES;DSN=Journal;INT=NO;DBG=YES;LOG=C:\Journal Manager\log.txt;DMRF=NO;LINKS=SharedMemory;COMP=NO
+			connect.Format("ODBC;UID=dba;PWD=sql;DBN=Journal;DBF=C:\\Journal Manager\\Journal.db;ASTOP=YES;DSN=Journal;INT=NO;DBG=YES;DMRF=NO;LINKS=SharedMemory;COMP=NO",*dbname);
+//			connect.Format("ODBC;Driver={Microsoft Visual FoxPro Driver};SourceType=DBC;DSN='';DBQ=%s",*dbname);
 		break;
 	case 1: //SQL
 		if(tstr.Find("server=")<0){
@@ -854,41 +870,10 @@ void wait_exit()
 		Sleep(100);
 	}
 }
-#include "Commercial\AIM.h"
-#include "Commercial\Config.h"
-#include "Commercial\CREDITCARD.h"
-#include "Commercial\CustomData.h"
-#include "Commercial\Customer.h"
-#include "Commercial\InventoryRec.h"
-#include "Commercial\MainTrans.h"
-#include "Commercial\OBD_TABLES.h"
-#include "Commercial\ProductConfig.h"
-#include "Commercial\ReportConfig.h"
-#include "Commercial\Security_Password.h"
-#include "Commercial\Site.h"
-#include "Commercial\TankConfig.h"
-#include "Commercial\User.h"
-#include "Commercial\Utility.h"
-#include "Commercial\Vehicle.h"
-#include "Commercial\TransAllZero.h"
-#include "Commercial\UnitConfig.h"
-
-
-#define _DODAAC_ "F%02iZ%02i"
-#include "FMLedger\fmledger_Additive.h"
-#include "FMLedger\fmledger_DODAAC.h"
-#include "FMLedger\fmledger_Link_DoDAAC_NSN.h"
-#include "FMLedger\fmledger_Config.h"
-#include "FMLedger\fmledger_custom.h"
-#include "FMLedger\fmledger_secu.h"
-#include "FMLedger\fmledger_tmu.h"
-#include "FMLedger\fmledger_veh.h"
-#include "FMLedger\fmledger_site.h"
-#include "FMLedger\fmledger_tank.h"
-#include "FMLedger\fmledger_tim_trans.h"
-#include "FMLedger\fmledger_transactions.h"
-#include "FMLedger\fmledger_messages.h"
-#include "FMLedger\fmledger_credit.h"
+#include "Commercial\h_shift.h"
+#include "Commercial\h_event.h"
+#include "Commercial\h_acct.h"
+#include "Commercial\h_ticket.h"
 
 
 
@@ -971,20 +956,6 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 				db1.Empty();
 				break;
 			}
-			else if(strcmp(argv[i],"-newdodini")==0){
-				printf("creation of " __NEWINI__ " enabled\n");
-				CREATE_NEW_INI_FILE=TRUE;
-				DeleteFile(__NEWINI__);
-				goto newdodini;
-				break;
-			}
-			else if(strcmp(argv[i],"-liltim")==0){
-				int count=100;
-				if(argc>(i+1))
-					count=atoi(argv[2]);
-				fill_liltimtrans(db1,count);
-				return 0;
-			}
 			else{
 				db1+=argv[i]; //whatevers left is gonna be DB string
 				break;
@@ -1014,62 +985,8 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 		char str[255];
 		_splitpath(db1,NULL,NULL,str,NULL);
 		strlwr(str);
-		if(strstr(str,"fmledger")!=0){
-			char fname[MAX_PATH];
-			char pass[80];
-			strcpy(fname,db1);
-			if(get_password(fname,pass,sizeof(pass),FALSE)){
-				g_dbpassword=pass;
-newdodini:
-				fill_ledger_additive(db1);
-				fill_ledger_dodaac(db1);
-				fill_ledger_dodaac_lock(db1);
-				fill_ledger_link_dodaac_nsn(db1);
-				fill_ledger_config(db1);
-				fill_ledger_security(db1);
-				fill_ledger_site(db1);
-				fill_ledger_unitconfig(db1);
-				fill_ledger_veh(db1);
-				fill_ledger_veh_grades(db1);
-				fill_ledger_tank(db1);
-				fill_ledger_hoses(db1);
 
-				fill_ledger_customdata(db1);
-				fill_ledger_customerrefdata(db1);
-				fill_ledger_carddef(db1);
-				fill_ledger_carddeffield(db1);
-				fill_ledger_carddefprefix(db1);
-
-				fill_ledger_pdatrans(db1);
-				fill_ledger_transsig(db1);
-
-				fill_ledger_transactions(db1);
-				fill_ledger_messages(db1);
-				fill_ledger_totalizer(db1);
-				fill_ledger_inventory_history(db1);
-				fill_ledger_delivery(db1);
-
-				fill_ledger_tmulv(db1);
-				fill_ledger_tmualarm(db1);
-				fill_ledger_tmucsld(db1);
-				fill_ledger_tmuinventory(db1);
-				fill_ledger_tmuleak(db1);
-				fill_ledger_tmushiftinv(db1);
-
-				fill_ledger_mobilevil(db1);
-				fill_ledger_configvil(db1);
-				fill_ledger_vil_lock(db1);
-				fill_ledger_cc_lock(db1);
-				fill_ledger_rules(db1);
-			}
-			if(argc==1){
-				cout << "press any key\n";
-				wait_exit();
-			}
-			return 0;
-		}
-		else
-			g_dbpassword=0;
+		g_dbpassword=0;
 /*
 		if(get_db_version(&db1)==FALSE){
 			cout<<"Get DB version failed\n";
@@ -1079,61 +996,11 @@ newdodini:
 		if(VERIFY_ALL_FIELDS) 
 			DeleteFile("log.txt"); 
 		
-		/* COMMERCIAL STUFF */
-		fill_config(db1);
 
-		fill_aimprogramhistory(db1);
-		fill_aimlocklist(db1);
-
-
-		fill_ppchistory(db1);
-		fill_prepaidcard(db1);
-		fill_cardowner(db1);
-		fill_discountcard(db1);
-		fill_localauthlock(db1);
-		fill_sitelalock(db1);
-		fill_localauthaccounts(db1);
-		fill_sitelaaccnt(db1);
-
-		fill_customer(db1);
-
-		fill_inventoryrec(db1);
-
-		fill_maintrans(db1);
-		fill_exporttrans(db1);
-
-		fill_obdrecords(db1);
-		fill_obdstat(db1);
-
-		fill_reportconfig(db1);
-
-		fill_user(db1);
-		fill_userlocklist(db1);
-		fill_vehicle(db1);
-		fill_vehiclelocklist(db1);
-
-		fill_transallmsg(db1);
-		fill_pieduptrans(db1);
-
-		fill_site(db1);
-
-		fill_tankconfig(db1);
-
-		fill_productconfig(db1);
-		fill_priceconfig(db1);
-
-		fill_unitconfig(db1);
-		fill_pumpconfig(db1);
-		fill_gradeconfig(db1);
-
-		fill_customdata(db1);
-
-		fill_utility(db1);
-
-		fill_securitypassword(db1);
-
-		fill_transallzero(db1);
-		fill_transzero(db1);
+		fill_hshift(db1);
+		fill_hevent(db1);
+		fill_hacct(db1);
+		fill_hticket(db1);
 
 		cout << "\nfinished\n";
 #ifndef _DEBUG

@@ -46,7 +46,7 @@ int fill_hshift(CString dbname)
 		GetDateFormat(LOCALE_USER_DEFAULT,0,&systime,"yyyy'-'MM'-'dd",date,sizeof(date));
 
 		ADDVALUE("stop_datetime","'%s %s'",date,time); //11,26
-		ADDVALUE("SHIFT_SEQ","%I64u",count&1?(__int64)shift_seq++:(__int64)SHIFT9); //8,15
+		ADDVALUE("SHIFT_SEQ","%f",count&1?(double)shift_seq++:(double)SHIFT9+.123); //8,15
 		ADDVALUE("REGNUM","%i",1); //-6,3
 		ADDVALUE("DRAWER","%i",1); //-6,3
 		ADDVALUE("SOURCE","%i",1); //5,5

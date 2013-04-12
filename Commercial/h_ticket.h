@@ -34,13 +34,13 @@ int fill_hticket(CString dbname)
 	cout<<"max count "<<max_count<<endl;
 
 	int shift_seq=1;
-	for(count=1;count<=max_count;count++)
+	for(count=1;count<=max_count*2;count++)
 	{
 		ADDVALUE("STORENUM","%i",store_num); //8,15
 		ADDVALUE("TICK_DATETIME","'%s %s'",date,time); //11,26
 		ADDVALUE("REGNUM","%i",1); //-6,3
 		ADDVALUE("TICKET","%i",count); //8,15
-		ADDVALUE("SHIFT_SEQ","%i",shift_seq); //8,15
+		ADDVALUE("SHIFT_SEQ","%I64u",count&1?(__int64)shift_seq:(__int64)SHIFT9); //8,15
 		ADDVALUE("ELSDATE","%s","null"); //9,10
 		ADDVALUE("CASHIER","%i",1); //8,15
 		ADDVALUE("SOURCE_DEV","%i",1); //5,5
@@ -79,7 +79,7 @@ int fill_hticket(CString dbname)
 			dbm.close();return FALSE;
 		}
 
-		{
+		if(count&1){
 			shift_seq++;
 			increment_time(&systime,6,0,0);
 			GetTimeFormat(LOCALE_USER_DEFAULT,0,&systime,"HH':'mm':'ss",time,sizeof(time));

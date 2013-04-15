@@ -57,7 +57,6 @@ int fill_hacct(CString dbname)
 		}
 		if(!(count&1))
 		{
-			shift_seq++;
 			increment_time(&systime,6,0,0);
 			GetTimeFormat(LOCALE_USER_DEFAULT,0,&systime,"HH':'mm':'ss",time,sizeof(time));
 			GetDateFormat(LOCALE_USER_DEFAULT,0,&systime,"yyyy'-'MM'-'dd",date,sizeof(date));

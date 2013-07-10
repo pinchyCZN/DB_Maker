@@ -182,7 +182,7 @@ int DBMaker::get_fields_array()
 	CRecordset rec1( &db );
 
 	SqlString = 
-	"SELECT TOP 1 * FROM [";
+	"SELECT * FROM [";
 	SqlString+=table_name;
 	SqlString+="]; ";
 	TRY{
@@ -433,9 +433,9 @@ int get_fields(CDatabase *db,char *table)
 
 	cout<<"getting "<<table<<" fields, logging to table_fields.txt\n";
 	SqlString = 
-	"SELECT TOP 1 * FROM [";
+	"SELECT * FROM ";
 	SqlString+=table;
-	SqlString+="]; ";
+	//SqlString+="";
 
 	rec1.Open(CRecordset::snapshot,SqlString,CRecordset::readOnly);
 	for(i=0;i<rec1.GetODBCFieldCount();i++) //output string code
@@ -511,12 +511,9 @@ int open_database(CDatabase *db,CString *dbname)
 //			connect.Format("ODBC;Driver={Microsoft Visual FoxPro Driver};SourceType=DBC;DSN='';DBQ=%s",*dbname);
 		break;
 	case 1: //SQL
-		if(tstr.Find("server=")<0){
-			printf("cant find 'server=' in connection string\n");
-			return FALSE;
-		}
-		//connect.Format("ODBC;DRIVER={SQLServer};SERVER=%s;DATABASE=%s;Trusted_Connection=yes",*dbname);
-		connect.Format("ODBC;DRIVER={SQL Server};%s;Integrated Security=SSPI",*dbname);
+		//connect.Format("ODBC;DRIVER={SQL Server};%s;Integrated Security=SSPI",*dbname);
+		connect.Format("ODBC;%s",*dbname);
+		printf("%s\n",connect);
 		break;
 	}
 	int success=0;
@@ -621,6 +618,23 @@ int delete_table_records(CDatabase *db,char *table_name,char *where_statement)
 		END_CATCH
 	}
 	return TRUE;
+}
+char *create_uuid()
+{
+	static char str[80];
+	UUID uuid;
+	RPC_STATUS result=UuidCreate(&uuid);
+	str[0]=0;
+	if(result==RPC_S_OK){
+		unsigned char *p=0;
+		UuidToString(&uuid,&p);
+		if(p!=0){
+			strncpy(str,(const char*)p,sizeof(str));
+			str[sizeof(str)-1]=0;
+			RpcStringFree(&p);
+		}
+	}
+	return str;
 }
 int get_string_ini_status(char *str,char *key,int *found_key,int *commented)
 {
@@ -873,6 +887,16 @@ int store_num=104;
 #include "Commercial\h_ticket.h"
 #include "Commercial\DAY_CLOSE_CUTOFF.h"
 
+#include "OASIS\pb_combo.h"
+#include "OASIS\pb_conv.h"
+#include "OASIS\pb_item.h"
+#include "OASIS\pb_pgrp.h"
+#include "OASIS\pb_pos.h"
+#include "OASIS\pb_retl.h"
+#include "OASIS\pb_upc.h"
+#include "OASIS\pbchglog.h"
+#include "OASIS\taxmap.h"
+#include "OASIS\pb_mixm.h"
 
 
 int parse_args(int argc,TCHAR *argv[],CString *dbname)
@@ -910,6 +934,7 @@ int parse_args(int argc,TCHAR *argv[],CString *dbname)
 
 	return FALSE;
 }
+
 int usage()
 {
 	printf("no arguments will open file requester for access DB\n"
@@ -955,6 +980,7 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 			}
 			else{
 				db1+=argv[i]; //whatevers left is gonna be DB string
+				printf("DBstring=%s\n",db1);
 				break;
 			}
 		}
@@ -993,12 +1019,25 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 		if(VERIFY_ALL_FIELDS) 
 			DeleteFile("log.txt"); 
 		
-
-		fill_hshift(db1);
-		fill_hevent(db1);
-		fill_hacct(db1);
-		fill_hticket(db1);
-		fill_DAY_CLOSE_CUTOFF(db1);
+		if(db1.Find("FoxPro")>=0){
+			fill_pb_combo(db1);
+			fill_pb_conv(db1);
+			fill_pb_item(db1);
+			fill_pb_mixm(db1);
+			fill_pb_pgrp(db1);
+			fill_pb_pos(db1);
+			fill_pb_retl(db1);
+			fill_pb_upc(db1);
+			fill_pbchglog(db1);
+			fill_taxmap(db1);
+		}
+		else{
+			fill_hshift(db1);
+			fill_hevent(db1);
+			fill_hacct(db1);
+			fill_hticket(db1);
+			fill_DAY_CLOSE_CUTOFF(db1);
+		}
 
 		cout << "\nfinished\n";
 #ifndef _DEBUG

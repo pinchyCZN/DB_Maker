@@ -738,7 +738,7 @@ int write_newini_str(char *section,char *key,CString *str)
 }
 int get_ini_str(char *section,char *key,CString *str)
 {
-	char fstr[255];
+	char fstr[1024];
 	char fname[MAX_PATH];
 	DWORD err;
 	if(CREATE_NEW_INI_FILE) return write_newini_str(section,key,str);
@@ -994,6 +994,8 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 			return -1;
 		}
 		if(argc<=1 || db1.IsEmpty() && !CREATE_NEW_INI_FILE){
+			get_ini_str("DATABASES","DATABASE",&db1);
+			/*
 			printf("no database given,opening file requester\n");
 			if(OpenDB(&db1)==FALSE){
 				cout<<"no file selected\n";
@@ -1002,15 +1004,23 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 			}else{
 				cout<<"selected DB:"<<(LPCSTR)db1<<"\n";
 			}
+			*/
+			if(db1.IsEmpty()){
+				usage();
+				exit(0);
+			}
+			else{
+				printf("using database %s\n",db1);
+			}
 		}
 		check_ini_globalvars();
-
+/*
 		char str[255];
 		_splitpath(db1,NULL,NULL,str,NULL);
 		strlwr(str);
 
 		g_dbpassword=0;
-/*
+
 		if(get_db_version(&db1)==FALSE){
 			cout<<"Get DB version failed\n";
 			return -2;

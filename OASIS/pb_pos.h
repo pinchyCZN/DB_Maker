@@ -33,10 +33,14 @@ int fill_pb_pos(CString dbname)
 	int max_count=50;
 	get_ini_value(dbm.table_name,"count",&max_count);
 
-	for(count=0;count<max_count;count++)
+	int links=3;
+	if(links<=0)
+		links=1;
+	for(count=0;count<max_count*links;count++)
 	{
+
 		ADDVALUE("profile","%i",1); //2,4
-		ADDVALUE("item_num","%05i",count); //2,12
+		ADDVALUE("item_num","%05i",count/links); //2,12
 		ADDVALUE("plu_type","'P'",count); //1,1
 		ADDVALUE("base_qty","%i",count%1); //2,3
 		ADDVALUE("mixmatchtb","%i",count%1); //2,3
@@ -45,8 +49,8 @@ int fill_pb_pos(CString dbname)
 		ADDVALUE("override","%i",count%1); //-7,1
 		ADDVALUE("spec_price","%i",count%1); //2,8
 		ADDVALUE("num_sizes","%i",count%1); //2,2
-		ADDVALUE("link_qty","%i",count%1); //2,5
-		ADDVALUE("link_upc","''",count); //1,20
+		ADDVALUE("link_qty","%i",((count/links)%10)+1); //2,5
+		ADDVALUE("link_upc","'%012i'",(count%50)+1); //1,20
 		ADDVALUE("link_mod","%i",count%1); //2,2
 		ADDVALUE("tran_code","''",count); //1,4
 		ADDVALUE("ff_raw","%i",count%1); //-7,1

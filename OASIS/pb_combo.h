@@ -33,26 +33,34 @@ int fill_pb_combo(CString dbname)
 	int max_count=50;
 	get_ini_value(dbm.table_name,"count",&max_count);
 
-	int i;
-	for(i=0;i<max_count*2;i++)
+	int i,combos=5,item=0;
+	if(combos<=0)
+		combos=2;
+	for(i=0;i<max_count*combos;i++)
 	{
-		int retail=(count/2)+1;
+		int retail=(count/combos)+1;
+		int upsell=retail+1;
 		char fmt[20]={0};
 		count=i;
 
-		if(count&1){
+		if((count%combos)==0){
 			retail=0;
+			upsell=0;
+			if(item>0)
+				item--;
 			_snprintf(fmt,sizeof(fmt),"%s","''");
 		}
-		else
+		else{
 			_snprintf(fmt,sizeof(fmt),"%s","'%012i'");
+			item++;
+			item=item%50;
+		}
 
-
-		ADDVALUE("combo_num","%i",count/2); //2,5
-		ADDVALUE("desc","'descrip%i'",count/2); //1,16
-		ADDVALUE("item_num",fmt,count/2); //1,20
+		ADDVALUE("combo_num","%i",count/combos); //2,5
+		ADDVALUE("desc","'combo%i'",count/combos); //1,16
+		ADDVALUE("item_num",fmt,item); //1,20
 		ADDVALUE("retail","%i",retail); //2,8
-		ADDVALUE("upsell","%i",(count/2)+1); //2,5
+		ADDVALUE("upsell","%i",upsell); //2,5
 
 
 

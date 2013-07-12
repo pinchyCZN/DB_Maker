@@ -36,14 +36,14 @@ int fill_pb_conv(CString dbname)
 	for(count=0;count<max_count;count++)
 	{
 		ADDVALUE("group","%i",count); //2,3
-		ADDVALUE("desc","'descrip%i'",count); //1,40
+		ADDVALUE("desc","'pb_conv_desc%i'",count); //1,40
 		ADDVALUE("purch_conv","%i",(count%10)+1); //2,9
 		ADDVALUE("inven_code","'%i'",(count%10)+1); //1,3
 		ADDVALUE("purch_code","'%i'",(count%10)+1); //1,5
-		ADDVALUE("inv_sdesc","'dsc%i'",count); //1,8
-		ADDVALUE("pur_sdesc","'psc%i'",count); //1,8
-		ADDVALUE("inv_ldesc","'ldsc%i'",count); //1,20
-		ADDVALUE("pur_ldesc","'pdsc%i'",count); //1,20
+		ADDVALUE("inv_sdesc","'invs%i'",count); //1,8
+		ADDVALUE("pur_sdesc","'purs%i'",count); //1,8
+		ADDVALUE("inv_ldesc","'invl%i'",count); //1,20
+		ADDVALUE("pur_ldesc","'purl%i'",count); //1,20
 
 
 		if(dbm.execute_sql_insert()==FALSE){

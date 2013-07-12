@@ -45,7 +45,7 @@ int fill_pbchglog(CString dbname)
 		ADDVALUE("prioramt","%i",count); //2,10
 		ADDVALUE("newamt","%i",count+1); //2,10
 		ADDVALUE("authorized","%i",1); //-7,1
-		ADDVALUE("desc","'descrip%03i'",count); //1,16
+		ADDVALUE("desc","'chglog%03i'",count); //1,16
 		ADDVALUE("item_num","%05i",count); //2,12
 		ADDVALUE("vendor","%04i",count); //2,9
 		ADDVALUE("vendoritem","'%06i'",count); //1,15

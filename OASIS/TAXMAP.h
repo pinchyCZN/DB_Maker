@@ -37,7 +37,7 @@ int fill_taxmap(CString dbname)
 	{
 		ADDVALUE("pos_tax_id","%i",count%3); //2,6
 		ADDVALUE("pb_tax_id","'%i'",count%3); //1,3
-		ADDVALUE("tax_desc","'taxdsc%i'",count); //1,20
+		ADDVALUE("tax_desc","'taxmdsc%i'",count); //1,20
 
 
 		if(FALSE){

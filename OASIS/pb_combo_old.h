@@ -33,7 +33,7 @@ int fill_pb_combo_old(CString dbname)
 	int max_count=50;
 	get_ini_value(dbm.table_name,"count",&max_count);
 
-	int i,combo=0,item=0;
+	int i,combo=40,item=0;
 	count=0;
 	for(i=0;i<max_count;i++)
 	{
@@ -65,7 +65,7 @@ int fill_pb_combo_old(CString dbname)
 		}
 		count++;
 		if(count>=5){
-			combo+=4;
+			combo+=2;
 			count=0;
 		}
 	}

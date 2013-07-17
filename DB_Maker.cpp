@@ -887,6 +887,7 @@ int store_num=104;
 #include "Commercial\h_ticket.h"
 #include "Commercial\DAY_CLOSE_CUTOFF.h"
 
+#include "OASIS\MOPMAP.h"
 #include "OASIS\pb_combo.h"
 #include "OASIS\pb_combo_old.h"
 #include "OASIS\pb_conv.h"
@@ -1031,6 +1032,7 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 			DeleteFile("log.txt"); 
 		
 		if(db1.Find("FoxPro")>=0){
+			fill_mopmap(db1);
 			fill_pb_combo(db1);
 			fill_pb_combo_old(db1);
 			fill_pb_conv(db1);

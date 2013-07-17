@@ -136,6 +136,10 @@ SOURCE=.\Commercial\h_ticket.h
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=.\OASIS\MOPMAP.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\OASIS\pb_combo.h
 # End Source File
 # Begin Source File

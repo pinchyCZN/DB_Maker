@@ -45,7 +45,7 @@ int fill_pb_item(CString dbname)
 		ADDVALUE("fixed_gm","%i",count%1); //-7,1
 		ADDVALUE("plu_item","%i",count%1); //-7,1
 		ADDVALUE("updated","{d'%s'}",date); //9,10
-		ADDVALUE("processed","%i",1); //-7,1
+		ADDVALUE("processed","%i",0); //-7,1
 		ADDVALUE("c_plu_item","'F'",count); //1,1
 
 

@@ -44,7 +44,7 @@ int fill_posplux(CString dbname)
 		int row=0;
 		int max_buttons=6*6;
 		#define MAX_TYPES 7
-		char *types[MAX_TYPES]={"PLU","COMBO","Discount","Jump","Modifier","Sspecial","Wash car"}; //'L'
+		char *types[MAX_TYPES]={"PLU","COMBO","Discount","Jump","Modifier","Special","Wash car"}; //'L'
 
 		for(count=0;count<max_buttons;count++)
 		{

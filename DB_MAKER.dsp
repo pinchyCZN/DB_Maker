@@ -183,6 +183,18 @@ SOURCE=.\OASIS\pbchglog.h
 SOURCE=.\OASIS\TAXMAP.h
 # End Source File
 # End Group
+# Begin Group "DPALM"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\DPALM\posplu.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\DPALM\posplux.h
+# End Source File
+# End Group
 # Begin Source File
 
 SOURCE=.\DB_MAKER.h

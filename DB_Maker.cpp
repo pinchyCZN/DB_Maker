@@ -900,6 +900,8 @@ int store_num=104;
 #include "OASIS\taxmap.h"
 #include "OASIS\pb_mixm.h"
 
+#include "DPALM\posplu.h"
+#include "DPALM\posplux.h"
 
 int parse_args(int argc,TCHAR *argv[],CString *dbname)
 {
@@ -1032,6 +1034,7 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 			DeleteFile("log.txt"); 
 		
 		if(db1.Find("FoxPro")>=0){
+			/*
 			fill_mopmap(db1);
 			fill_pb_combo(db1);
 			fill_pb_combo_old(db1);
@@ -1044,6 +1047,9 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 			fill_pb_upc(db1);
 			fill_pbchglog(db1);
 			fill_taxmap(db1);
+			*/
+			fill_posplu(db1);
+			fill_posplux(db1);
 		}
 		else{
 			fill_hshift(db1);

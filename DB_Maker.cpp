@@ -640,18 +640,13 @@ int get_string_ini_status(char *str,char *key,int *found_key,int *commented)
 {
 	char *a,*b;
 	int klen=strlen(key);
+	char tmp[256]={0};
+	_snprintf(tmp,sizeof(tmp),"[%s]",key);
+	tmp[sizeof(tmp)-1]=0;
 		
-	if((b=strstr(str,key))!=0)
+	if((b=strstr(str,tmp))!=0)
 	{
 		*found_key=TRUE;
-		if((b!=str) && (b[-1]=='[')) //check for brackets []
-		{
-			if((b[klen]&0xFF)!=']')//double check entire str for partial key match
-				*found_key=FALSE;
-		}
-		else if( !((b[klen]&0xFF)<=' ')) //double check entire str for partial key match
-				*found_key=FALSE;
-
 		*commented=FALSE;
 		if((a=strstr(str,";"))!=0) 
 			if(a<b)
@@ -1034,7 +1029,7 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 			DeleteFile("log.txt"); 
 		
 		if(db1.Find("FoxPro")>=0){
-			/*
+			
 			fill_mopmap(db1);
 			fill_pb_combo(db1);
 			fill_pb_combo_old(db1);
@@ -1047,7 +1042,7 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 			fill_pb_upc(db1);
 			fill_pbchglog(db1);
 			fill_taxmap(db1);
-			*/
+			
 			fill_posplu(db1);
 			fill_posplux(db1);
 		}

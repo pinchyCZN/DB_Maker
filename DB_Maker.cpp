@@ -631,6 +631,7 @@ char *create_uuid()
 		if(p!=0){
 			strncpy(str,(const char*)p,sizeof(str));
 			str[sizeof(str)-1]=0;
+			strupr(str);
 			RpcStringFree(&p);
 		}
 	}

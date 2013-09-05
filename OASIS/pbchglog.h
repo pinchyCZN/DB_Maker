@@ -36,19 +36,21 @@ int fill_pbchglog(CString dbname)
 	char *change_types[5]={"COST","AUTH","RETAIL","DELETE","INVEN"};
 	for(count=0;count<max_count;count++)
 	{
+		int type=count%5;
+		int item=count/10;
 		ADDVALUE("changeid","'{%s}'",create_uuid()); //1,50
-		ADDVALUE("lookupnum","'%012i'",count); //1,20
+		ADDVALUE("lookupnum","'%012i'",item); //1,20
 		ADDVALUE("modifier","%i",0); //2,1
 		ADDVALUE("effectived","{d'%s'}",date); //9,10
 		ADDVALUE("effectivet","''",0); //1,8
-		ADDVALUE("changetype","'%s'",change_types[2]); //1,6
-		ADDVALUE("prioramt","%i",count); //2,10
-		ADDVALUE("newamt","%i",count+1); //2,10
+		ADDVALUE("changetype","'%s'",change_types[type]); //1,6
+		ADDVALUE("prioramt","%i",item); //2,10
+		ADDVALUE("newamt","%i",item+1); //2,10
 		ADDVALUE("authorized","%i",1); //-7,1
 		ADDVALUE("desc","'chglog%03i'",count); //1,16
-		ADDVALUE("item_num","%05i",count); //2,12
-		ADDVALUE("vendor","%04i",count); //2,9
-		ADDVALUE("vendoritem","'%06i'",count); //1,15
+		ADDVALUE("item_num","%05i",item); //2,12
+		ADDVALUE("vendor","%04i",item); //2,9
+		ADDVALUE("vendoritem","'%06i'",item); //1,15
 		ADDVALUE("department","%i",1); //2,4
 		ADDVALUE("pricegroup","%i",1); //2,4
 		ADDVALUE("mixmtchold","%i",0); //2,4
@@ -57,7 +59,7 @@ int fill_pbchglog(CString dbname)
 		ADDVALUE("prtshelflb","%i",0); //-7,1
 		ADDVALUE("onoffpromo","%i",0); //-7,1
 		ADDVALUE("futurechg","%i",0); //-7,1
-		ADDVALUE("export_id","2",(count%2)+1); //2,3
+		ADDVALUE("export_id","1",(count%2)+1); //2,3
 
 
 		if(FALSE){

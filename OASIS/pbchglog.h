@@ -34,7 +34,7 @@ int fill_pbchglog(CString dbname)
 	get_ini_value(dbm.table_name,"count",&max_count);
 
 	char *change_types[5]={"COST","AUTH","RETAIL","DELETE","INVEN"};
-	for(count=0;count<max_count;count++)
+	for(count=1;count<=max_count;count++)
 	{
 		int type=count%5;
 		int item=count/10;

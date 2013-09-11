@@ -33,10 +33,12 @@ int fill_pbchglog(CString dbname)
 	int max_count=50;
 	get_ini_value(dbm.table_name,"count",&max_count);
 
-	char *change_types[5]={"COST","AUTH","RETAIL","DELETE","INVEN"};
+	//char *change_types[]={"COST","AUTH","RETAIL","DELETE","INVEN"};
+	char *change_types[]={"RETAIL","DELETE"};
+	int ctype_size=sizeof(change_types)/sizeof(char *);
 	for(count=1;count<=max_count;count++)
 	{
-		int type=count%5;
+		int type=count%ctype_size;
 		int item=count/10;
 		ADDVALUE("changeid","'{%s}'",create_uuid()); //1,50
 		ADDVALUE("lookupnum","'%012i'",item); //1,20

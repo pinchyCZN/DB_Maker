@@ -65,7 +65,8 @@ int fill_pb_combo(CString dbname)
 
 
 		if(dbm.execute_sql_insert()==FALSE){
-			dbm.db.Close();return FALSE;
+			dbm.db.Close();
+			return FALSE;
 		}
 	}
 	dbm.close();

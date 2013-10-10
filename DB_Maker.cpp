@@ -165,7 +165,10 @@ int DBMaker::execute_sql_insert()
 			}
 			CString error = ">ERROR: " + e->m_strError;
 			cout<< (LPCSTR)error;
-			return FALSE;
+			if(strstr(e->m_strError,"Feature is not available")!=0)
+				return TRUE;
+			else
+				return FALSE;
 		}
 		END_CATCH
 	}

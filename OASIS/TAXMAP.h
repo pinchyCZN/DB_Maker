@@ -30,13 +30,13 @@ int fill_taxmap(CString dbname)
 	
 	cout<<"Writing to "<< dbm.table_name << " Table\n";
 
-	int max_count=50;
+	int max_count=10;
 	get_ini_value(dbm.table_name,"count",&max_count);
 
 	for(count=0;count<max_count;count++)
 	{
-		ADDVALUE("pos_tax_id","%i",count%3); //2,6
-		ADDVALUE("pb_tax_id","'%i'",count%3); //1,3
+		ADDVALUE("pos_tax_id","%i",count); //2,6
+		ADDVALUE("pb_tax_id","'%i'",count+100); //1,3
 		ADDVALUE("tax_desc","'taxmdsc%i'",count); //1,20
 
 

@@ -42,7 +42,7 @@ int fill_pb_retl(CString dbname)
 		ADDVALUE("promo_code","0",count); //2,5
 		ADDVALUE("print","1",count); //-7,1
 		ADDVALUE("processed","1",count); //-7,1
-		ADDVALUE("mixmatchtb","%i",count); //2,4
+		ADDVALUE("mixmatchtb","%i",count%20); //2,4
 		ADDVALUE("c_print","'T'",count); //1,1
 		ADDVALUE("printshelf","0",count); //-7,1
 

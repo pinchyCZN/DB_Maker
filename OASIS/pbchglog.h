@@ -34,7 +34,7 @@ int fill_pbchglog(CString dbname)
 	get_ini_value(dbm.table_name,"count",&max_count);
 
 	//char *change_types[]={"COST","AUTH","RETAIL","DELETE","INVEN"};
-	char *change_types[]={"RETAIL","DELETE"};
+	char *change_types[]={"RETAIL","DELETE","MIX"};
 	int ctype_size=sizeof(change_types)/sizeof(char *);
 	for(count=1;count<=max_count;count++)
 	{
@@ -55,8 +55,8 @@ int fill_pbchglog(CString dbname)
 		ADDVALUE("vendoritem","'%06i'",item); //1,15
 		ADDVALUE("department","%i",1); //2,4
 		ADDVALUE("pricegroup","%i",1); //2,4
-		ADDVALUE("mixmtchold","%i",0); //2,4
-		ADDVALUE("mixmatchtb","%i",0); //2,4
+		ADDVALUE("mixmtchold","%i",item); //2,4
+		ADDVALUE("mixmatchtb","%i",item+1); //2,4
 		ADDVALUE("prtpricelb","%i",0); //-7,1
 		ADDVALUE("prtshelflb","%i",0); //-7,1
 		ADDVALUE("onoffpromo","%i",0); //-7,1

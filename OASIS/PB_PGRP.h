@@ -36,8 +36,13 @@ int fill_pb_pgrp(CString dbname)
 	for(count=0;count<max_count;count++)
 	{
 		int age=18;
-		if((count/2)&1)
+		int val=(count/2)%3;
+		if(val==0)
 			age=21;
+		else if(val==1)
+			age=19;
+		else
+			age=18;
 
 		ADDVALUE("group","%i",count); //2,4
 		ADDVALUE("desc","'pgrp_desc%i'",count); //1,40

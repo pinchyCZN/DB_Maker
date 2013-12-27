@@ -898,6 +898,7 @@ int store_num=104;
 #include "OASIS\pbchglog.h"
 #include "OASIS\taxmap.h"
 #include "OASIS\pb_mixm.h"
+#include "OASIS\FUELMAP.h"
 
 #include "DPALM\posplu.h"
 #include "DPALM\posplux.h"
@@ -1046,6 +1047,7 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 			fill_pb_upc(db1);
 			fill_pbchglog(db1);
 			fill_taxmap(db1);
+			fill_fuelmap(db1);
 			
 			fill_posplu(db1);
 			fill_posplux(db1);

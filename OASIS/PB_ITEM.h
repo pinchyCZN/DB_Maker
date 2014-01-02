@@ -33,6 +33,7 @@ int fill_pb_item(CString dbname)
 	int max_count=50;
 	get_ini_value(dbm.table_name,"count",&max_count);
 
+
 	for(count=0;count<max_count;count++)
 	{
 		ADDVALUE("item_num","%05i",count); //2,12
@@ -48,6 +49,67 @@ int fill_pb_item(CString dbname)
 		ADDVALUE("processed","%i",0); //-7,1
 		ADDVALUE("c_plu_item","'F'",count); //1,1
 
+		if(FALSE){
+			increment_time(&systime,-6,0,0);
+			GetTimeFormat(LOCALE_USER_DEFAULT,0,&systime,"HH':'mm':'ss",time,sizeof(time));
+			GetDateFormat(LOCALE_USER_DEFAULT,0,&systime,"yyyy'-'MM'-'dd",date,sizeof(date));
+
+		}
+//			systime=t;
+
+		if(dbm.execute_sql_insert()==FALSE){
+			dbm.db.Close();return FALSE;
+		}
+	}
+/*
+	DBMaker db2;
+	db2.table_name="pbchglog";
+	db2.open_db(&dbname);
+
+	CRecordset rec1( &db2.db );
+
+	TRY{
+		rec1.Open(CRecordset::snapshot,"SELECT * from PBCHGLOG",CRecordset::readOnly);
+	}
+	CATCH(CDBException, e){
+		CString error = ">ERROR: " + e->m_strError;
+		cout<< (LPCSTR)error;
+		rec1.Close();
+		return 0;
+	}
+	END_CATCH
+	CODBCFieldInfo finfo;
+
+	while(!rec1.IsEOF())
+	{
+		count=1;
+		CString str;
+		rec1.GetFieldValue("item_num",str);
+
+		//ADDVALUE("item_num","%05i",count); //2,12
+
+		str.TrimLeft(' ');
+		str.TrimRight(' ');
+		ADDVALUE("item_num","%s",str); //2,12
+
+		int pg=20;
+
+		ADDVALUE("pricegroup","%i",count); //2,4
+		//ADDVALUE("pricegroup","%i",pg); //2,4
+
+
+		ADDVALUE("convgroup","%i",count); //2,4
+		ADDVALUE("inven_item","%05i",count+1); //2,12
+		ADDVALUE("purch_item","%05i",count); //2,12
+		ADDVALUE("count_item","'%011i'",count); //1,20
+		ADDVALUE("changed","%i",count%2); //-7,1
+		ADDVALUE("fixed_gm","%i",count%1); //-7,1
+		ADDVALUE("plu_item","%i",count%1); //-7,1
+		ADDVALUE("updated","{d'%s'}",date); //9,10
+		ADDVALUE("processed","%i",0); //-7,1
+		ADDVALUE("c_plu_item","'F'",count); //1,1
+
+		rec1.MoveNext();
 
 		if(FALSE){
 			increment_time(&systime,-6,0,0);
@@ -61,6 +123,8 @@ int fill_pb_item(CString dbname)
 			dbm.db.Close();return FALSE;
 		}
 	}
+*/
+
 	dbm.close();
 	return TRUE;
 }

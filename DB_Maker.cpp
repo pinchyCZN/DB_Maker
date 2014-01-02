@@ -898,6 +898,7 @@ int store_num=104;
 #include "OASIS\pbchglog.h"
 #include "OASIS\taxmap.h"
 #include "OASIS\pb_mixm.h"
+#include "OASIS\pb_mixm_old.h"
 #include "OASIS\FUELMAP.h"
 
 #include "DPALM\posplu.h"
@@ -1035,12 +1036,14 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 		
 		if(db1.Find("FoxPro")>=0){
 			
+			
 			fill_mopmap(db1);
 			fill_pb_combo(db1);
 			fill_pb_combo_old(db1);
 			fill_pb_conv(db1);
 			fill_pb_item(db1);
 			fill_pb_mixm(db1);
+			fill_pb_mixm_old(db1);
 			fill_pb_pgrp(db1);
 			fill_pb_pos(db1);
 			fill_pb_retl(db1);

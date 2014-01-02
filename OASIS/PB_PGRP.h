@@ -47,7 +47,7 @@ int fill_pb_pgrp(CString dbname)
 		ADDVALUE("group","%i",count); //2,4
 		ADDVALUE("desc","'pgrp_desc%i'",count); //1,40
 		ADDVALUE("prepared","%i",count%1); //-7,1
-		ADDVALUE("tax_status","'%i'",count%3); //1,3
+		ADDVALUE("tax_status","'%03i'",100+count%7); //1,3
 		ADDVALUE("fs_status","'%s'",(count%2)?"Y":"N"); //1,1
 		ADDVALUE("category","'%03i'",count); //1,3
 		ADDVALUE("department","%i",count); //2,4

@@ -1,7 +1,7 @@
-int fill_taxmap(CString dbname)
+int fill_pb_mixm_old(CString dbname)
 {
 	DBMaker dbm;
-	dbm.table_name="taxmap";
+	dbm.table_name="pb_mixm_old";
 
 	if(!check_ini_file(dbm.table_name)) 
 		return FALSE;
@@ -30,15 +30,20 @@ int fill_taxmap(CString dbname)
 	
 	cout<<"Writing to "<< dbm.table_name << " Table\n";
 
-	int max_count=10;
+	int max_count=50;
 	get_ini_value(dbm.table_name,"count",&max_count);
 
 	for(count=0;count<max_count;count++)
 	{
-		ADDVALUE("pos_tax_id","%i",9000+count); //2,6
-		ADDVALUE("pb_tax_id","'%i'",100+count); //1,3
-		ADDVALUE("tax_desc","'taxmdsc%i'",count); //1,20
 
+		ADDVALUE("table_num","%i",count+100); //2,4
+		ADDVALUE("type","'%i'",count); //1,1
+		ADDVALUE("qty","%i",count); //2,5
+		ADDVALUE("price","%i",count); //2,8
+		ADDVALUE("strictlow","%i",count&1); //-7,1
+		ADDVALUE("stricthigh","%i",count&1); //-7,1
+		ADDVALUE("c_strictlo","'%c'",'A'+count%26); //1,1
+		ADDVALUE("c_stricthi","'%c'",'B'+count%26); //1,1
 
 		if(FALSE){
 			increment_time(&systime,-6,0,0);

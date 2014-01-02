@@ -164,6 +164,10 @@ SOURCE=.\OASIS\pb_mixm.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\OASIS\pb_mixm_old.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\OASIS\PB_PGRP.h
 # End Source File
 # Begin Source File

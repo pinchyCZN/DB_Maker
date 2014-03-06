@@ -894,6 +894,7 @@ int store_num=104;
 #include "OASIS\pb_pgrp.h"
 #include "OASIS\pb_pos.h"
 #include "OASIS\pb_retl.h"
+#include "OASIS\pb_invre.h"
 #include "OASIS\pb_upc.h"
 #include "OASIS\pbchglog.h"
 #include "OASIS\taxmap.h"
@@ -1050,6 +1051,7 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 			fill_pb_pgrp(db1);
 			fill_pb_pos(db1);
 			fill_pb_retl(db1);
+			fill_pb_invre(db1);
 			fill_pb_upc(db1);
 			fill_pbchglog(db1);
 			fill_taxmap(db1);

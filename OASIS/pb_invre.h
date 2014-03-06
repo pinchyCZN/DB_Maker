@@ -1,7 +1,7 @@
-int fill_pb_retl(CString dbname)
+int fill_pb_invre(CString dbname)
 {
 	DBMaker dbm;
-	dbm.table_name="pb_retl";
+	dbm.table_name="pb_invre";
 
 	if(!check_ini_file(dbm.table_name)) 
 		return FALSE;
@@ -35,17 +35,11 @@ int fill_pb_retl(CString dbname)
 
 	for(count=0;count<max_count;count++)
 	{
-		ADDVALUE("profile","0",count); //2,4
-		ADDVALUE("item_num","%05i",count); //2,12
+		ADDVALUE("profile","%i",count&0); //2,4
+		ADDVALUE("item_num","%i",count); //2,12
 		ADDVALUE("date","{d'%s'}",date); //9,10
-		ADDVALUE("retail","%i",count%100); //2,8
-		ADDVALUE("promo_code","0",count); //2,5
-		ADDVALUE("print","1",count); //-7,1
-		ADDVALUE("processed","%i",(count/3)&1); //-7,1
-		ADDVALUE("mixmatchtb","%i",count%20); //2,4
-		ADDVALUE("c_print","'T'",count); //1,1
-		ADDVALUE("printshelf","0",count); //-7,1
-
+		ADDVALUE("retail","%i",count%100); //2,10
+		ADDVALUE("processed","%i",count&1); //-7,1
 
 		if(FALSE){
 			increment_time(&systime,-6,0,0);

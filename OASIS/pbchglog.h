@@ -30,7 +30,7 @@ int fill_pbchglog(CString dbname)
 	
 	cout<<"Writing to "<< dbm.table_name << " Table\n";
 
-	int max_count=50;
+	int max_count=100;
 	get_ini_value(dbm.table_name,"count",&max_count);
 
 	//char *change_types[]={"COST","AUTH","RETAIL","DELETE","INVEN"};
@@ -38,9 +38,13 @@ int fill_pbchglog(CString dbname)
 	int ctype_size=sizeof(change_types)/sizeof(char *);
 	for(count=1;count<=max_count;count++)
 	{
+		char guid[80]={0};
 		int type=count%ctype_size;
 		int item=count/10;
-		ADDVALUE("changeid","'{%s}'",create_uuid()); //1,50
+		
+		create_uuid(guid,sizeof(guid));
+
+		ADDVALUE("changeid","'{%s}'",guid); //1,50
 		ADDVALUE("lookupnum","'%012i'",item); //1,20
 		ADDVALUE("modifier","%i",0); //2,1
 		ADDVALUE("effectived","{d'%s'}",date); //9,10

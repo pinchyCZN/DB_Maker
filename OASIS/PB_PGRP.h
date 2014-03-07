@@ -63,7 +63,7 @@ int fill_pb_pgrp(CString dbname)
 		ADDVALUE("type","'N'",count); //1,1
 		ADDVALUE("wic_status","'N'",count); //1,1
 		ADDVALUE("c_discount","'F'",count); //1,1
-		ADDVALUE("cashonly","0",count); //-7,1
+		ADDVALUE("cashonly","%i",(count/4)&1); //-7,1
 		ADDVALUE("restr_grp","''",count); //1,8
 		ADDVALUE("c_cashonly","'F'",count); //1,1
 

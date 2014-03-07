@@ -622,23 +622,18 @@ int delete_table_records(CDatabase *db,char *table_name,char *where_statement)
 	}
 	return TRUE;
 }
-char *create_uuid()
+int create_uuid(char *str,int str_len)
 {
-	static char str[80];
-	UUID uuid;
-	RPC_STATUS result=UuidCreate(&uuid);
-	str[0]=0;
-	if(result==RPC_S_OK){
-		unsigned char *p=0;
-		UuidToString(&uuid,&p);
-		if(p!=0){
-			strncpy(str,(const char*)p,sizeof(str));
-			str[sizeof(str)-1]=0;
-			strupr(str);
-			RpcStringFree(&p);
-		}
-	}
-	return str;
+	_snprintf(str,str_len,"%04X",rand());
+	_snprintf(str,str_len,"%s%04X",str,rand());
+	_snprintf(str,str_len,"%s-%04X",str,rand());
+	_snprintf(str,str_len,"%s-%04X",str,rand());
+	_snprintf(str,str_len,"%s-%04X",str,rand());
+	_snprintf(str,str_len,"%s-%04X",str,rand());
+	_snprintf(str,str_len,"%s%04X",str,rand());
+	_snprintf(str,str_len,"%s%04X",str,rand());
+	str[str_len-1]=0;
+	return TRUE;
 }
 int get_string_ini_status(char *str,char *key,int *found_key,int *commented)
 {

@@ -38,7 +38,7 @@ int fill_pb_retl(CString dbname)
 		ADDVALUE("profile","0",count); //2,4
 		ADDVALUE("item_num","%05i",count); //2,12
 		ADDVALUE("date","{d'%s'}",date); //9,10
-		ADDVALUE("retail","%i",count%100); //2,8
+		ADDVALUE("retail","%i",(count+10)%100); //2,8
 		ADDVALUE("promo_code","0",count); //2,5
 		ADDVALUE("print","1",count); //-7,1
 		ADDVALUE("processed","%i",(count/3)&1); //-7,1

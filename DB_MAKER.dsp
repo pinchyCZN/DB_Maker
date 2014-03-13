@@ -157,6 +157,10 @@ SOURCE=.\OASIS\pb_conv.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\OASIS\pb_desc.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\OASIS\PB_ITEM.h
 # End Source File
 # Begin Source File

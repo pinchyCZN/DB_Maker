@@ -14,9 +14,11 @@ int fill_hshift(CString dbname)
 
 	char time[20],date[20];
 	SYSTEMTIME systime;
-//	GetSystemTime(&systime);
-	set_system_time(&systime,2010,1,1,0,0,0);
-//	increment_time(&systime,-72,0,0); //roll back few days
+	GetSystemTime(&systime);
+	int timeshift=-3;
+	//set_system_time(&systime,2010,1,1,3,0,0);
+	get_ini_value(dbm.table_name,"timeshift",&timeshift);
+	increment_time(&systime,timeshift*24,0,0); //roll back few days
 
 	//2008-09-29 08:41:35.000
 	GetTimeFormat(LOCALE_USER_DEFAULT,0,&systime,"HH':'mm':'ss",time,sizeof(time));

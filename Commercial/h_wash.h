@@ -1,7 +1,7 @@
-int fill_hacct(CString dbname)
+int fill_hwash(CString dbname)
 {
 	DBMaker dbm;
-	dbm.table_name="H_ACCT";
+	dbm.table_name="H_WASH";
 
 	if(!check_ini_file(dbm.table_name)) 
 		return FALSE;
@@ -39,30 +39,21 @@ int fill_hacct(CString dbname)
 	int shift_seq=1;
 	for(count=1;count<=max_count*2;count++)
 	{
+		ADDVALUE("STORENUM","%i",count%10); //8,15
 		ADDVALUE("tick_datetime","'%s %s'",date,time); //11,26
-		ADDVALUE("SHIFT_SEQ","%I64u",count&1?(__int64)shift_seq++:(__int64)SHIFT9); //8,15
-		ADDVALUE("ID","%i",count); //8,15
-		ADDVALUE("ELSDATE","%s","null"); //9,10
-		ADDVALUE("ACCT_AREA","'%i'",count); //12,8
-		ADDVALUE("ACCT_TYPE","'%i'",count); //12,4
-		ADDVALUE("AMOUNT","%i",count); //3,12
-		ADDVALUE("DONE","%i",1); //-7,1
-		ADDVALUE("STORENUM","%i",store_num); //8,15
-		ADDVALUE("REGNUM","%i",1); //-6,3
-		ADDVALUE("acct_id","%i",count); //4,10
-		ADDVALUE("LOCATION","'%i'",1); //12,6
-		ADDVALUE("CURR_CODE","'%i'",1); //12,3
-		ADDVALUE("EXCH_RATE","%i",0); //2,6
-		ADDVALUE("POS_TYPE","%i",1); //2,1
-
+		ADDVALUE("REGNUM","%i",count%10); //-6,3
+		ADDVALUE("TICKET","%i",count); //8,15
+		ADDVALUE("ORDINAL","%i",count); //5,5
+		ADDVALUE("ELSDATE","'%s'",date); //9,10
+		ADDVALUE("DESCRIPTION","'desc%i'",count); //12,16
+		ADDVALUE("WASH_PROG","%i",count); //5,5
+		ADDVALUE("EXP_DATE","'%s'",date); //9,10
+		ADDVALUE("CODE","'%i'",count); //12,6
+		ADDVALUE("DPT","'%i'",count); //12,10
+		ADDVALUE("PRINTED","%i",count%2); //2,3
+		ADDVALUE("ticket_id","%i",count); //4,10
 		if(dbm.execute_sql_insert()==FALSE){
 			dbm.close();return FALSE;
-		}
-		if(!(count&1))
-		{
-			increment_time(&systime,6,0,0);
-			GetTimeFormat(LOCALE_USER_DEFAULT,0,&systime,"HH':'mm':'ss",time,sizeof(time));
-			GetDateFormat(LOCALE_USER_DEFAULT,0,&systime,"yyyy'-'MM'-'dd",date,sizeof(date));
 		}
 	}
 	dbm.close();

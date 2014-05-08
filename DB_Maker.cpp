@@ -20,6 +20,16 @@ char *g_dbpassword=0;
 char *start_path=0;
 extern "C" int get_password(char *fname,char *p,int plen,int copy_to_clip);
 
+char * strstri(char *s1,char *s2)
+{
+	int i,j,k;
+	for(i=0;s1[i];i++)
+		for(j=i,k=0;tolower(s1[j])==tolower(s2[k]);j++,k++)
+			if(!s2[k+1])
+				return (s1+i);
+	return NULL;
+}
+
 class DBMaker
 {
 public:
@@ -157,14 +167,15 @@ int DBMaker::execute_sql_insert()
 			return TRUE;
 		}
 		CATCH(CDBException, e){
+			CString error = ">ERROR: " + e->m_strError;
+			cout<< (LPCSTR)error;
 			if(LOG_SQL_EXCEPTION){
 				FILE *flog;
 				flog=fopen("log.txt","a");
-				fputs(SqlString,flog);
+				fprintf(flog,"%s\n%s\n",error,SqlString);
 				fclose(flog);
 			}
-			CString error = ">ERROR: " + e->m_strError;
-			cout<< (LPCSTR)error;
+
 			if(strstr(e->m_strError,"Feature is not available")!=0)
 				return TRUE;
 			else
@@ -541,6 +552,39 @@ int DBMaker::open_db(CString *dbname)
 	}
 	return FALSE;		
 }
+int get_table_index_str(CDatabase *db,char *table_name,char *field_name,char *index,int len)
+{
+	int result=FALSE;
+	CString SQLstr;
+	if(!db->IsOpen())
+		return result;
+	SQLstr.Format("SELECT TOP 1 ([%s]) FROM [%s];",field_name,table_name);
+	CRecordset rec(db);
+
+	TRY{
+		rec.Open(CRecordset::snapshot,SQLstr,CRecordset::readOnly);
+		CString str;
+		if(!rec.IsEOF())
+			rec.GetFieldValue(field_name,str);
+		_snprintf(index,len,"%s",str);
+		index[len-1]=0;
+		result=TRUE;
+	}
+	CATCH(CDBException, e){
+		CString error = ">ERROR:"+e->m_strError;
+		cout<< (LPCSTR)error;
+		if(LOG_SQL_EXCEPTION){
+			FILE *flog;
+			flog=fopen("log.txt","a");
+			fprintf(flog,"get table index str:%s,%s %s\n",table_name,field_name,error);
+			fclose(flog);
+		}
+	}
+	END_CATCH
+	if(rec.IsOpen())
+		rec.Close();
+	return result;
+}
 int get_table_index(CDatabase *db,char *table_name,char *field_name,int *index)
 {
 	int result=FALSE;
@@ -559,8 +603,14 @@ int get_table_index(CDatabase *db,char *table_name,char *field_name,int *index)
 		result=TRUE;
 	}
 	CATCH(CDBException, e){
-		CString error = ">ERROR: " + e->m_strError;
+		CString error = ">ERROR:"+e->m_strError;
 		cout<< (LPCSTR)error;
+		if(LOG_SQL_EXCEPTION){
+			FILE *flog;
+			flog=fopen("log.txt","a");
+			fprintf(flog,"get table index:%s,%s %s\n",table_name,field_name,error);
+			fclose(flog);
+		}
 	}
 	END_CATCH
 	if(rec.IsOpen())
@@ -579,10 +629,10 @@ int set_table_index(CDatabase *db,char *table_name,char *field_name,char *where,
 	}
 	CATCH(CDBException, e){
 		if(LOG_SQL_EXCEPTION){
-		FILE *flog;
-		flog=fopen("log.txt","a");
-		fputs(SQLstr,flog);
-		fclose(flog);
+			FILE *flog;
+			flog=fopen("log.txt","a");
+			fprintf(flog,"set table index:%s,%s %s\n",table_name,field_name,e->m_strError);
+			fclose(flog);
 		}
 		CString error = ">ERROR: " + e->m_strError;
 		cout<< (LPCSTR)error;
@@ -643,7 +693,7 @@ int get_string_ini_status(char *str,char *key,int *found_key,int *commented)
 	_snprintf(tmp,sizeof(tmp),"[%s]",key);
 	tmp[sizeof(tmp)-1]=0;
 		
-	if((b=strstr(str,tmp))!=0)
+	if((b=strstri(str,tmp))!=0)
 	{
 		*found_key=TRUE;
 		*commented=FALSE;
@@ -879,6 +929,14 @@ int store_num=104;
 #include "Commercial\h_event.h"
 #include "Commercial\h_acct.h"
 #include "Commercial\h_ticket.h"
+#include "Commercial\h_cust.h"
+#include "Commercial\h_disc.h"
+#include "Commercial\h_fuel.h"
+#include "Commercial\h_item.h"
+#include "Commercial\h_pict.h"
+#include "Commercial\h_tax.h"
+#include "Commercial\h_tender.h"
+#include "Commercial\h_wash.h"
 #include "Commercial\DAY_CLOSE_CUTOFF.h"
 
 #include "OASIS\MOPMAP.h"
@@ -1060,6 +1118,14 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 			fill_hevent(db1);
 			fill_hacct(db1);
 			fill_hticket(db1);
+			fill_hcust(db1);
+			fill_hdisc(db1);
+			fill_hfuel(db1);
+			fill_hitem(db1);
+			fill_hpict(db1);
+			fill_htax(db1);
+			fill_htender(db1);
+			fill_hwash(db1);
 			fill_DAY_CLOSE_CUTOFF(db1);
 		}
 

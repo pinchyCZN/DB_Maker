@@ -121,7 +121,27 @@ SOURCE=.\Commercial\h_acct.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Commercial\h_cust.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Commercial\h_disc.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Commercial\h_event.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Commercial\h_fuel.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Commercial\h_item.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Commercial\h_pict.h
 # End Source File
 # Begin Source File
 
@@ -129,7 +149,19 @@ SOURCE=.\Commercial\h_shift.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Commercial\h_tax.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Commercial\h_tender.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Commercial\h_ticket.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Commercial\h_wash.h
 # End Source File
 # End Group
 # Begin Group "OASIS"

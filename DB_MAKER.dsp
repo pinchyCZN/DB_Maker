@@ -129,6 +129,10 @@ SOURCE=.\Commercial\h_disc.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Commercial\h_error.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Commercial\h_event.h
 # End Source File
 # Begin Source File
@@ -162,6 +166,10 @@ SOURCE=.\Commercial\h_ticket.h
 # Begin Source File
 
 SOURCE=.\Commercial\h_wash.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Commercial\ShiftDrawerTotals.h
 # End Source File
 # End Group
 # Begin Group "OASIS"

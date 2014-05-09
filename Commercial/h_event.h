@@ -32,7 +32,7 @@ int fill_hevent(CString dbname)
 	
 	cout<<"Writing to "<< dbm.table_name << " Table\n";
 
-	int max_count=50;
+	int max_count=500;
 	get_ini_value(dbm.table_name,"count",&max_count);
 
 	int shift_seq=1;

@@ -32,39 +32,52 @@ int fill_hitem(CString dbname)
 	
 	cout<<"Writing to "<< dbm.table_name << " Table\n";
 
-	int max_count=50;
+	int max_count=500;
 	get_ini_value(dbm.table_name,"count",&max_count);
 	cout<<"max count "<<max_count<<endl;
 
-	int shift_seq=1;
-	for(count=1;count<=max_count*2;count++)
-	{
-		ADDVALUE("STORENUM","",count); //8,15
-		ADDVALUE("TICK_DATETIME","''",count); //11,26
-		ADDVALUE("REGNUM","",count); //-6,3
-		ADDVALUE("TICKET","",count); //8,15
-		ADDVALUE("ORDINAL","",count); //5,5
-		ADDVALUE("ELSDATE","",count); //9,10
-		ADDVALUE("ITEM_TYPE","''",count); //12,1
-		ADDVALUE("COMBO_NUM","",count); //2,5
-		ADDVALUE("ITEMNUM","''",count); //12,20
-		ADDVALUE("DESCRIPTION","''",count); //12,16
-		ADDVALUE("MODIFIER","",count); //5,5
-		ADDVALUE("PRICE","",count); //3,12
-		ADDVALUE("AMOUNT","",count); //3,12
-		ADDVALUE("QTY","",count); //3,12
-		ADDVALUE("TAX_TABLE","",count); //2,3
-		ADDVALUE("FOOD_STAMP","''",count); //12,10
-		ADDVALUE("DISCOUNT","''",count); //12,10
-		ADDVALUE("AGE","",count); //5,5
-		ADDVALUE("DEPARTMENT","",count); //5,5
-		ADDVALUE("TICKET_ID","",count); //4,10
-		ADDVALUE("PROMO_CODE","",count); //2,5
-		ADDVALUE("KV_SENT","''",count); //12,10
-		ADDVALUE("PARENT_ORD","",count); //5,5
-		if(dbm.execute_sql_insert()==FALSE){
-			dbm.close();return FALSE;
+	CRecordset rec(&dbm.db);
+	if(get_records(&rec,"SELECT STORENUM,TICK_DATETIME,TICKET_ID FROM H_TICKET ORDER BY TICK_DATETIME")){
+		for(count=1;count<=max_count;count++)
+		{
+			if(rec.IsEOF())
+				break;
+			CString storenum="1";
+			CString tickdatetime="2010-01-01";
+			CString ticketid="1";
+			rec.GetFieldValue("STORENUM",storenum);
+			rec.GetFieldValue("TICK_DATETIME",tickdatetime);
+			rec.GetFieldValue("TICKET_ID",ticketid);
+			ADDVALUE("STORENUM","%s",storenum); //8,15
+			ADDVALUE("TICK_DATETIME","'%s'",tickdatetime); //11,26
+			ADDVALUE("REGNUM","%i",count%10); //-6,3
+			ADDVALUE("TICKET","%i",count); //8,15
+			ADDVALUE("ORDINAL","%i",count%100); //5,5
+			ADDVALUE("ELSDATE","'%s'",tickdatetime); //9,10
+			ADDVALUE("ITEM_TYPE","'%i'",count%10); //12,1
+			ADDVALUE("COMBO_NUM","%i",count%100); //2,5
+			ADDVALUE("ITEMNUM","'item%i'",count); //12,20
+			ADDVALUE("DESCRIPTION","'desc%i'",count); //12,16
+			ADDVALUE("MODIFIER","%i",count%2); //5,5
+			ADDVALUE("PRICE","%i",count%1000); //3,12
+			ADDVALUE("AMOUNT","%i",count%1000); //3,12
+			ADDVALUE("QTY","%i",count%100); //3,12
+			ADDVALUE("TAX_TABLE","%i",count%10); //2,3
+			ADDVALUE("FOOD_STAMP","'fs%i'",count); //12,10
+			ADDVALUE("DISCOUNT","'%i'",count%1000); //12,10
+			ADDVALUE("AGE","%i",count%100); //5,5
+			ADDVALUE("DEPARTMENT","%i",count%100); //5,5
+			ADDVALUE("TICKET_ID","%i",count%1000); //4,10
+			ADDVALUE("PROMO_CODE","%i",count%1000); //2,5
+			ADDVALUE("KV_SENT","'%i'",count%1000); //12,10
+			ADDVALUE("PARENT_ORD","%i",count%1000); //5,5
+			if(dbm.execute_sql_insert()==FALSE){
+				break;
+			}
+			rec.MoveNext();
 		}
+		if(rec.IsOpen())
+			rec.Close();
 	}
 	dbm.close();
 	return TRUE;

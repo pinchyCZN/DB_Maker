@@ -52,7 +52,8 @@ public:
 	};
 	int open_db(CString *dbname);
 	int close(){
-		db.Close();
+		if(db.IsOpen())
+			db.Close();
 		if(insert_count>0)
 			printf("executed %i inserts, ",insert_count);
 		printf("done.\n\n");
@@ -585,6 +586,27 @@ int get_table_index_str(CDatabase *db,char *table_name,char *field_name,char *in
 		rec.Close();
 	return result;
 }
+int get_records(CRecordset *rec,char *sql)
+{
+	int result=FALSE;
+	TRY{
+		rec->Open(CRecordset::snapshot,sql,CRecordset::readOnly);
+		result=TRUE;
+	}
+	CATCH(CDBException, e){
+		CString error = ">ERROR:"+e->m_strError;
+		cout<< (LPCSTR)error;
+		if(LOG_SQL_EXCEPTION){
+			FILE *flog;
+			flog=fopen("log.txt","a");
+			fprintf(flog,"get_records:%s %s\n",sql,error);
+			fclose(flog);
+		}
+	}
+	END_CATCH
+	return result;
+
+}
 int get_table_index(CDatabase *db,char *table_name,char *field_name,int *index)
 {
 	int result=FALSE;
@@ -938,6 +960,8 @@ int store_num=104;
 #include "Commercial\h_tender.h"
 #include "Commercial\h_wash.h"
 #include "Commercial\DAY_CLOSE_CUTOFF.h"
+#include "Commercial\ShiftDrawerTotals.h"
+#include "Commercial\Exceptions.h"
 
 #include "OASIS\MOPMAP.h"
 #include "OASIS\pb_combo.h"
@@ -1127,6 +1151,8 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 			fill_htender(db1);
 			fill_hwash(db1);
 			fill_DAY_CLOSE_CUTOFF(db1);
+			fill_ShiftDrawerTotals(db1);
+			fill_Exceptions(db1);
 		}
 
 		cout << "\nfinished\n";

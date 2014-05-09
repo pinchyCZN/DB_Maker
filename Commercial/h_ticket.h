@@ -32,7 +32,7 @@ int fill_hticket(CString dbname)
 	
 	cout<<"Writing to "<< dbm.table_name << " Table\n";
 
-	int max_count=50;
+	int max_count=500;
 	get_ini_value(dbm.table_name,"count",&max_count);
 	cout<<"max count "<<max_count<<endl;
 

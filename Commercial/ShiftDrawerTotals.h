@@ -1,7 +1,7 @@
-int fill_DAY_CLOSE_CUTOFF(CString dbname)
+int fill_ShiftDrawerTotals(CString dbname)
 {
 	DBMaker dbm;
-	dbm.table_name="DAY_CLOSE_CUTOFF";
+	dbm.table_name="ShiftDrawerTotals";
 
 	if(!check_ini_file(dbm.table_name)) 
 		return FALSE;
@@ -32,30 +32,22 @@ int fill_DAY_CLOSE_CUTOFF(CString dbname)
 	
 	cout<<"Writing to "<< dbm.table_name << " Table\n";
 
-	int max_count=400;
+	int max_count=500;
 	get_ini_value(dbm.table_name,"count",&max_count);
 	cout<<"max count "<<max_count<<endl;
 
 	for(count=1;count<=max_count;count++)
 	{
-		ADDVALUE("ELSDATE","'%s'",date); //9,10
-		ADDVALUE("FIRST_SHIFT_START","'%s %s'",date,time); //11,26
-		ADDVALUE("FIRST_SHIFT_SEQ","%i",1); //8,15
-		ADDVALUE("FIRST_SHIFT_REGNUM","%i",1); //-6,3
-		ADDVALUE("LAST_SHIFT_END","'%s %s'",date,time); //11,26
-		ADDVALUE("LAST_SHIFT_SEQ","%i",1); //8,15
-		ADDVALUE("LAST_SHIFT_REGNUM","%i",1); //-6,3
-		ADDVALUE("CUTOFF","'%s %s'",date,time); //11,26
-		ADDVALUE("TOTAL_SALES","%i",1); //3,14
-		ADDVALUE("FINALIZED","'%s %s'",date,time); //11,26
-
-
+		ADDVALUE("STORENUM","%i",count%100); //8,15
+		ADDVALUE("CASHIER","%i",count%10); //8,15
+		ADDVALUE("REGNUM","%i",count%10); //-6,3
+		ADDVALUE("DRAWER","%i",count%10); //-6,3
+		ADDVALUE("SHIFT_SEQ","%i",count); //8,15
+		ADDVALUE("BEGIN_AMT","%i",count%1000); //3,12
+		ADDVALUE("END_AMT","%i",count%1000); //3,12
 		if(dbm.execute_sql_insert()==FALSE){
 			dbm.close();return FALSE;
 		}
-		increment_time(&systime,24,0,0);
-		GetTimeFormat(LOCALE_USER_DEFAULT,0,&systime,"HH':'mm':'ss",time,sizeof(time));
-		GetDateFormat(LOCALE_USER_DEFAULT,0,&systime,"yyyy'-'MM'-'dd",date,sizeof(date));
 	}
 	dbm.close();
 	return TRUE;

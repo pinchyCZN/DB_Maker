@@ -36,7 +36,7 @@ int fill_hevent(CString dbname)
 	get_ini_value(dbm.table_name,"count",&max_count);
 
 	int shift_seq=1;
-	for(count=1;count<=max_count*2;count++)
+	for(count=1;count<=max_count;count++)
 	{
 		ADDVALUE("STORENUM","%i",store_num); //8,15
 		ADDVALUE("TICK_DATETIME","'%s %s'",date,time); //11,26
@@ -70,7 +70,7 @@ int fill_hevent(CString dbname)
 
 		if(!(count&1))
 		{
-			increment_time(&systime,6,0,0);
+			increment_time(&systime,24,0,0);
 			GetTimeFormat(LOCALE_USER_DEFAULT,0,&systime,"HH':'mm':'ss",time,sizeof(time));
 			GetDateFormat(LOCALE_USER_DEFAULT,0,&systime,"yyyy'-'MM'-'dd",date,sizeof(date));
 		}

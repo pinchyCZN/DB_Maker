@@ -44,7 +44,7 @@ int fill_hitem(CString dbname)
 				break;
 			CString storenum="1";
 			CString tickdatetime="2010-01-01";
-			CString ticketid="1";
+			CString ticketid="0";
 			rec.GetFieldValue("STORENUM",storenum);
 			rec.GetFieldValue("TICK_DATETIME",tickdatetime);
 			rec.GetFieldValue("TICKET_ID",ticketid);
@@ -67,7 +67,7 @@ int fill_hitem(CString dbname)
 			ADDVALUE("DISCOUNT","'%i'",count%1000); //12,10
 			ADDVALUE("AGE","%i",count%100); //5,5
 			ADDVALUE("DEPARTMENT","%i",count%100); //5,5
-			ADDVALUE("TICKET_ID","%i",count%1000); //4,10
+			ADDVALUE("TICKET_ID","%s",ticketid); //4,10
 			ADDVALUE("PROMO_CODE","%i",count%1000); //2,5
 			ADDVALUE("KV_SENT","'%i'",count%1000); //12,10
 			ADDVALUE("PARENT_ORD","%i",count%1000); //5,5

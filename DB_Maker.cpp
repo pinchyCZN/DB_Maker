@@ -959,6 +959,7 @@ int store_num=104;
 #include "Commercial\h_tax.h"
 #include "Commercial\h_tender.h"
 #include "Commercial\h_wash.h"
+#include "Commercial\h_error.h"
 #include "Commercial\DAY_CLOSE_CUTOFF.h"
 #include "Commercial\ShiftDrawerTotals.h"
 #include "Commercial\Exceptions.h"
@@ -1150,6 +1151,7 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 			fill_htax(db1);
 			fill_htender(db1);
 			fill_hwash(db1);
+			fill_herror(db1);
 			fill_DAY_CLOSE_CUTOFF(db1);
 			fill_ShiftDrawerTotals(db1);
 			fill_Exceptions(db1);

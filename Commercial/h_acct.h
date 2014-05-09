@@ -37,7 +37,7 @@ int fill_hacct(CString dbname)
 	cout<<"max count "<<max_count<<endl;
 
 	int shift_seq=1;
-	for(count=1;count<=max_count*2;count++)
+	for(count=1;count<=max_count;count++)
 	{
 		ADDVALUE("tick_datetime","'%s %s'",date,time); //11,26
 		ADDVALUE("SHIFT_SEQ","%I64u",count&1?(__int64)shift_seq++:(__int64)SHIFT9); //8,15
@@ -60,7 +60,7 @@ int fill_hacct(CString dbname)
 		}
 		if(!(count&1))
 		{
-			increment_time(&systime,6,0,0);
+			increment_time(&systime,24,0,0);
 			GetTimeFormat(LOCALE_USER_DEFAULT,0,&systime,"HH':'mm':'ss",time,sizeof(time));
 			GetDateFormat(LOCALE_USER_DEFAULT,0,&systime,"yyyy'-'MM'-'dd",date,sizeof(date));
 		}

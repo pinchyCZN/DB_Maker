@@ -27,9 +27,6 @@ int fill_herror(CString dbname)
 	int count=0;
 	DWORD elapsed=0;
 
-//	int int_key=0;
-//	get_table_index(&db,"Config","VEHIINTKEY",&int_key);
-	
 	cout<<"Writing to "<< dbm.table_name << " Table\n";
 
 	int max_count=500;

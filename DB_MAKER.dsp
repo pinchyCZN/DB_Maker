@@ -153,6 +153,10 @@ SOURCE=.\Commercial\h_pict.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Commercial\h_pout.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Commercial\h_shift.h
 # End Source File
 # Begin Source File

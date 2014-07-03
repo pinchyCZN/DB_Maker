@@ -38,7 +38,8 @@ int fill_hfuel(CString dbname)
 			ADDVALUE("REGNUM","%i",count%10); //-6,3
 			ADDVALUE("TICKET","%i",count); //8,15
 			ADDVALUE("ORDINAL","%i",count%100); //5,5
-			ADDVALUE("ELSDATE","'%s'",tickdatetime); //9,10
+			//ADDVALUE("ELSDATE","'%s'",tickdatetime); //9,10
+			ADDVALUE("ELSDATE","null",tickdatetime); //9,10
 			ADDVALUE("FUEL_TYPE","'%i'",count%10); //12,1
 			ADDVALUE("GRADE","%i",count%10); //-6,3
 			ADDVALUE("FP","%i",count%10); //5,5

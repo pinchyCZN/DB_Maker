@@ -956,6 +956,7 @@ int store_num=104;
 #include "Commercial\h_fuel.h"
 #include "Commercial\h_item.h"
 #include "Commercial\h_pict.h"
+#include "Commercial\h_pout.h"
 #include "Commercial\h_tax.h"
 #include "Commercial\h_tender.h"
 #include "Commercial\h_wash.h"
@@ -1148,6 +1149,7 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 			fill_hfuel(db1);
 			fill_hitem(db1);
 			fill_hpict(db1);
+			fill_hpout(db1);
 			fill_htax(db1);
 			fill_htender(db1);
 			fill_hwash(db1);

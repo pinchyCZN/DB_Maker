@@ -39,7 +39,8 @@ int fill_herror(CString dbname)
 		ADDVALUE("STORENUM","%i",count); //8,15
 		ADDVALUE("tick_datetime","'%s %s'",date,time); //11,26
 		ADDVALUE("REGNUM","%i",count%10); //-6,3
-		ADDVALUE("ELSDATE","'%s'",date); //9,10
+		//ADDVALUE("ELSDATE","'%s'",date); //9,10
+		ADDVALUE("ELSDATE","null",date); //9,10
 		ADDVALUE("USER_ID","%i",count%100); //8,15
 		ADDVALUE("SENDER","'send%i'",count); //12,120
 		ADDVALUE("CLASS","'%i'",count); //12,20

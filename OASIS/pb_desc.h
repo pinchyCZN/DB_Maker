@@ -41,7 +41,10 @@ int fill_pb_desc(CString dbname)
 		ADDVALUE("item_num","%i",count); //2,12
 		ADDVALUE("short_name","'shortname%i'",count); //1,16
 		ADDVALUE("long_name","'longname%i'",count); //1,40
-		ADDVALUE("delete_dat","{d'%s'}",date); //9,10
+		if(i&1)
+			ADDVALUE("delete_dat","{d'%s'}",date); //9,10
+		else
+			ADDVALUE("delete_dat","{d'%s'}","1899-12-30"); //9,10
 
 		increment_time(&systime,24,0,0);
 		GetDateFormat(LOCALE_USER_DEFAULT,0,&systime,"yyyy'-'MM'-'dd",date,sizeof(date));

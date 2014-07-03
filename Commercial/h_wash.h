@@ -38,7 +38,8 @@ int fill_hwash(CString dbname)
 			ADDVALUE("REGNUM","%i",count%10); //-6,3
 			ADDVALUE("TICKET","%i",count); //8,15
 			ADDVALUE("ORDINAL","%i",count%100); //5,5
-			ADDVALUE("ELSDATE","'%s'",tickdatetime); //9,10
+			//ADDVALUE("ELSDATE","'%s'",tickdatetime); //9,10
+			ADDVALUE("ELSDATE","null",tickdatetime); //9,10
 			ADDVALUE("DESCRIPTION","'desc%i'",count); //12,16
 			ADDVALUE("WASH_PROG","%i",count%1000); //5,5
 			ADDVALUE("EXP_DATE","'%s'",tickdatetime); //9,10

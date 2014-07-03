@@ -38,7 +38,8 @@ int fill_htax(CString dbname)
 			ADDVALUE("REGNUM","%i",count%10); //-6,3
 			ADDVALUE("TICKET","%i",count); //8,15
 			ADDVALUE("ORD_ASSOC","%i",count%100); //5,5
-			ADDVALUE("ELSDATE","'%s'",tickdatetime); //9,10
+			//ADDVALUE("ELSDATE","'%s'",tickdatetime); //9,10
+			ADDVALUE("ELSDATE","null",tickdatetime); //9,10
 			ADDVALUE("TAX_TABLE","%i",count%100); //-6,3
 			ADDVALUE("TAX","%i",count%100); //2,14
 			ADDVALUE("TAX_TOTAL","%i",count%100); //2,14

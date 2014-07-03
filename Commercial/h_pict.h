@@ -37,7 +37,8 @@ int fill_hpict(CString dbname)
 			ADDVALUE("TICK_DATETIME","'%s'",tickdatetime); //11,26
 			ADDVALUE("REGNUM","%i",count%10); //-6,3
 			ADDVALUE("TICKET","%i",count); //8,15
-			ADDVALUE("ELSDATE","'%s'",tickdatetime); //9,10
+			//ADDVALUE("ELSDATE","'%s'",tickdatetime); //9,10
+			ADDVALUE("ELSDATE","null",tickdatetime); //9,10
 			ADDVALUE("PICTURE","(NULL)",count); //-4,2000000000
 			ADDVALUE("ticket_id","%s",ticketid); //4,10
 			if(dbm.execute_sql_insert()==FALSE){

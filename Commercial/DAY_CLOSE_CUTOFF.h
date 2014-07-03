@@ -38,7 +38,7 @@ int fill_DAY_CLOSE_CUTOFF(CString dbname)
 
 	for(count=1;count<=max_count;count++)
 	{
-		ADDVALUE("ELSDATE","'%s'",date); //9,10
+		ADDVALUE("ELSDATE","'%s'",date); //9,10 //cannot be null
 		ADDVALUE("FIRST_SHIFT_START","'%s %s'",date,time); //11,26
 		ADDVALUE("FIRST_SHIFT_SEQ","%i",1); //8,15
 		ADDVALUE("FIRST_SHIFT_REGNUM","%i",1); //-6,3

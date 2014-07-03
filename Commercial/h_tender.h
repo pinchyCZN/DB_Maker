@@ -38,7 +38,8 @@ int fill_htender(CString dbname)
 			ADDVALUE("REGNUM","%i",count%10); //-6,3
 			ADDVALUE("TICKET","%i",count%1000); //8,15
 			ADDVALUE("ORDINAL","%i",count%100); //5,5
-			ADDVALUE("ELSDATE","'%s'",tickdatetime); //9,10
+			//ADDVALUE("ELSDATE","'%s'",tickdatetime); //9,10
+			ADDVALUE("ELSDATE","null",tickdatetime); //9,10
 			ADDVALUE("TENDER_ID","'%i'",count%100); //12,8
 			ADDVALUE("SUB_ID","'%i'",count%100); //12,16
 			ADDVALUE("AMOUNT","%i",count%1000); //3,12

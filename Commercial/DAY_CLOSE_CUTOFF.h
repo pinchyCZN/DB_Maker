@@ -45,7 +45,10 @@ int fill_DAY_CLOSE_CUTOFF(CString dbname)
 		ADDVALUE("LAST_SHIFT_END","'%s %s'",date,time); //11,26
 		ADDVALUE("LAST_SHIFT_SEQ","%i",1); //8,15
 		ADDVALUE("LAST_SHIFT_REGNUM","%i",1); //-6,3
-		ADDVALUE("CUTOFF","'%s %s'",date,time); //11,26
+		if(count&1)
+			ADDVALUE("CUTOFF","'%s %s'",date,time); //11,26
+		else
+			ADDVALUE("CUTOFF","NULL"); //11,26
 		ADDVALUE("TOTAL_SALES","%i",1); //3,14
 		ADDVALUE("FINALIZED","'%s %s'",date,time); //11,26
 

@@ -47,6 +47,8 @@ int fill_hdisc(CString dbname)
 			ADDVALUE("TICKET_ID","%s",ticketid); //4,10
 			ADDVALUE("MAXGAL","%i",count%1000); //2,6
 			ADDVALUE("DISCAMT","%i",count%1000); //2,8
+			ADDVALUE("PERCENTOFF","%i",count%1000); //2,8
+
 			if(dbm.execute_sql_insert()==FALSE){
 				break;
 			}

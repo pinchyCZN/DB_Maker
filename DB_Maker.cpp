@@ -965,6 +965,7 @@ int store_num=104;
 #include "Commercial\DAY_CLOSE_CUTOFF.h"
 #include "Commercial\ShiftDrawerTotals.h"
 #include "Commercial\Exceptions.h"
+#include "Commercial\SkippedFiles.h"
 
 #include "OASIS\MOPMAP.h"
 #include "OASIS\pb_combo.h"
@@ -1159,6 +1160,7 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 			fill_DAY_CLOSE_CUTOFF(db1);
 			fill_ShiftDrawerTotals(db1);
 			fill_Exceptions(db1);
+			fill_SkippedFiles(db1);
 		}
 
 		cout << "\nfinished\n";

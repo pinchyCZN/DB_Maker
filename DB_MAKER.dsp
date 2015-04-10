@@ -179,6 +179,10 @@ SOURCE=.\Commercial\h_wash.h
 
 SOURCE=.\Commercial\ShiftDrawerTotals.h
 # End Source File
+# Begin Source File
+
+SOURCE=.\Commercial\SkippedFiles.h
+# End Source File
 # End Group
 # Begin Group "OASIS"
 

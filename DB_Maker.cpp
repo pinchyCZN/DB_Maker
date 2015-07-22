@@ -111,6 +111,24 @@ public:
 		}
 		return TRUE;
 	};
+	bool execute_sql(char *sql){
+		TRY{
+			db.ExecuteSQL(sql);
+			return TRUE;
+		}
+		CATCH(CDBException, e){
+			CString error = ">ERROR: " + e->m_strError;
+			cout<< (LPCSTR)error;
+			if(LOG_SQL_EXCEPTION){
+				FILE *flog;
+				flog=fopen("log.txt","a");
+				fprintf(flog,"%s\n%s\n",error,sql);
+				fclose(flog);
+			}
+			return FALSE;
+		}
+		END_CATCH
+	}
 };
 int DBMaker::execute_sql_insert()
 {

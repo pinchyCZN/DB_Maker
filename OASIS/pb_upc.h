@@ -36,8 +36,8 @@ int fill_pb_upc(CString dbname)
 	for(count=0;count<max_count;count++)
 	{
 		ADDVALUE("item_num","%05i",count); //2,12
-		ADDVALUE("upc","'%012i'",count); //1,20
-		ADDVALUE("modifier","%i",count%1); //2,1
+		ADDVALUE("upc","'%012i'",count/10); //1,20
+		ADDVALUE("modifier","%i",count%10); //2,1
 		ADDVALUE("last_edit","{d'%s'}",date); //9,10
 		ADDVALUE("code_type","%i",count%1); //2,1
 

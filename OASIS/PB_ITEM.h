@@ -124,7 +124,6 @@ int fill_pb_item(CString dbname)
 		}
 	}
 */
-
 	dbm.close();
 	return TRUE;
 }
